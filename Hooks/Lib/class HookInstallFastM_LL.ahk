@@ -65,24 +65,17 @@ class HookInstallFastM_LL {
 
 	static Ref := 0
 
-	static Call( UserHookCallbackToID := "" ) {
-
+	static Call( UserHookCallbackToID ) {
+		
 		++this.Ref
 		ID := this.Prototype.__Class "_" this.Ref
 
-		_UserHookCallbackTo := Register.Get( UserHookCallbackToID )
-
-		if ( Type( _UserHookCallbackTo.Value ) == "Func" and _UserHookCallbackTo.DataType == "UserHookCallbackTo" ) {
-			this._UserHookCallbackTo := _UserHookCallbackTo
-		}
-		else {
-			Text := "Defina a Função a ser executada"
-			this._UserHookCallbackTo := ( this, wParam, lParam ) => ToolTip( this.Ref "`n" Text "`n" wParam "`n" lParam )
-		}
-
+		this._UserHookCallbackTo := Register.Get( UserHookCallbackToID )
+		
 		this.LpFn               := ObjBindMethod( this, "CallBack" )
 		this.CallBackID         := HookCallbackTo( this.LpFn )
 		this.IdHookID           := IdHook( WH_MOUSE_LL() )
+		
 		this.myInstallHook      := HookInstall( this.IdHookID, this.CallBackID )
 
 		this._UserHookCallbackTo.HookInstall := this.myInstallHook

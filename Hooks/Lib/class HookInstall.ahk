@@ -12,12 +12,10 @@ class HookInstall {
 
     __New( IdHookID, LpFnID ) {
 
-        this.HookHandleID := 0
-        this.IdHookID     := IdHookID
-        this.LpFnID       := LpFnID
-        
-        ;this.HookConfig := HookConfig( this.IdHook, this.LpFn )
-        this.HookID := HookSet( this )
+        this.HookHandleID  := 0
+        this.IdHookID      := IdHookID
+        this.LpFnID        := LpFnID        
+        this.HookSetID     := HookSet( this.IdHookID, this.LpFnID )
     }
 
     IdHook {
