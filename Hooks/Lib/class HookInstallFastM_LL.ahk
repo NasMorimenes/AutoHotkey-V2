@@ -1,5 +1,5 @@
 ﻿#Include lib.ahk
-
+/**
 UserCall := UserHookCallbackTo( _func )
 
 idFastM_LL := HookInstallFastM_LL( UserCall )
@@ -9,7 +9,7 @@ idFastM_LL := HookInstallFastM_LL( UserCall )
  * @param _      Objeto que receberá _func como um método
  * @param wParam 
  * @param lParam 
- */
+; *
 _func( _, wParam, lParam ) {
 	;OutputDebug( _.DataType ) --> UserHookCallbackTo
 	ToolTip( "wParam - " wParam)
@@ -64,15 +64,15 @@ ReleaseLpFn( _ ) {
 class HookInstallFastM_LL {
 
 	static Ref := 0
-	static Register := Map()
 
-	static Call( _UserHookCallbackTo := "" ) {
+	static Call( UserHookCallbackToID := "" ) {
 
 		++this.Ref
 		ID := this.Prototype.__Class "_" this.Ref
 
-		if ( Type( _UserHookCallbackTo.Value ) == "Func" and _UserHookCallbackTo.DataType == "UserHookCallbackTo" ) {
+		_UserHookCallbackTo := Register.Get( UserHookCallbackToID )
 
+		if ( Type( _UserHookCallbackTo.Value ) == "Func" and _UserHookCallbackTo.DataType == "UserHookCallbackTo" ) {
 			this._UserHookCallbackTo := _UserHookCallbackTo
 		}
 		else {
@@ -85,15 +85,14 @@ class HookInstallFastM_LL {
 		this.IdHookID           := IdHook( WH_MOUSE_LL() )
 		this.myInstallHook      := HookInstall( this.IdHookID, this.CallBackID )
 
-		this.Register.Set( ID, 
-			{
+		this._UserHookCallbackTo.HookInstall := this.myInstallHook
+
+		return Register( {
 				InstallHook	: this.myInstallHook,
 				ID 			: ID,
 				DataType	: "HookInstallFastM_LL"
 			}
 		)
-
-		return this.Register[ ID ]
 	}
 
 	static CallBack( nCode, wParam, lParam ) {

@@ -51,6 +51,7 @@ class WaitUntil {
         }
 
         if ( this.Obj.%this.Prop% == this.ValueProp ) {
+            ToolTip()
             ( MethodCalll and this.Obj.%this.MethodCall%() )
             SetTimer( this.CallBack, 0 )
             return true
@@ -61,9 +62,9 @@ class WaitUntil {
     static GetTimeOut() {
 
         static ti := A_TickCount
-
+    
         nTin := A_TickCount - ti
-
+        ToolTip( nTin )
         if ( nTin >= this.Timer and ( !this.Timer ? false : true ) ) {
             this.TimeOut := true
         }

@@ -8,9 +8,8 @@
 class HookSet {
 
     static Ref := 0
-    static Register := Map()
 
-    static Call( _HookConfig ) {
+    static Call( _ ) {
 
         ++this.Ref
         ID := this.Prototype.__Class "_" this.Ref
@@ -18,25 +17,17 @@ class HookSet {
         HandlehHook :=
         DllCall(
             "SetWindowsHookEx",
-            "int", _HookConfig.IdHook,
-            "Ptr", _HookConfig.Address,
-            "Ptr", _HookConfig.HMod,
+            "int", _.IdHook.Value,
+            "Ptr", _.LpFn.Address,
+            "Ptr", 0,
             "UInt", 0,
             "Ptr"
         )
-        
-        hHook := HookHandle( HandlehHook )
-
-        this.Register.Set( ID,
-            {
-                Value       : hHook.Value,
-                ID          : ID,
-                Status      : hHook.Status,
-                IdHook      : _HookConfig.IdHook,
-                Address     : _HookConfig.Address
+        _.HookHandleID := HookHandle( HandlehHook )
+        return Register( {
+                Hook : _,
+                ID   : ID
             }
         )
-        
-        return this.Register[ ID ]
     }
 }

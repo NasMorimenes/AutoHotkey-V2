@@ -23,7 +23,6 @@ ReleaseLpFn( _ ) {
 class HookCallbackTo {
     
     static Ref := 0
-    static Register := Map()
 
     static Call( _func, NumParams := 3, params* ) {
 
@@ -32,8 +31,7 @@ class HookCallbackTo {
         ++this.Ref
         ID := this.Prototype.__Class "_" this.Ref
 
-        this.Register.Set( ID,
-            {
+        return Register( {
                 Address  : CallbackCreate( _func, "F", NumParams ),
                 ID       : ID,
                 Block    : false,
@@ -41,13 +39,10 @@ class HookCallbackTo {
                 Release  : Release
             }
         )
-        
-        return ID
 
         Release( _ ) {
 
-            if ( _.Address ) {
-                
+            if ( _.Address ) {                
                 CallbackFree( _.Address )
                 _.Address := 0
                 OutputDebug( "Is Release!")

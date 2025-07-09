@@ -2,21 +2,26 @@
 
 class HookUn {
 
-    static Call( _HookInstall ) {
+    static Call( HookHandleID ) {
+        HookHandle := Register.Get( HookHandleID )
 
-        if ( _HookInstall.Hook.Value ) {
+        if ( HookHandle.Status ) {
 
             OutputDebug( "Hook Off ")
             bool :=
             DllCall(
                 "UnhookWindowsHookEx",
-                "Uint", _HookInstall.Hook.Value,
+                "Uint", HookHandle.Value,
                 "int"
             )
-            _HookInstall.Hook.Value := 0
-            _HookInstall.HookConfig.Release()
-            _HookInstall.Status := false
-            return bool
+
+            if ( bool ) {
+                HookHandle.Value := 0
+                HookHandle.Status := false
+                return bool
+            }
+            
+           
         }
     }
 

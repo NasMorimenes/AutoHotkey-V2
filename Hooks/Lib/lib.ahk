@@ -1,5 +1,4 @@
 ﻿#Include class HookInstallFastM_LL.ahk
-#Include ..\..\Classes\class WaitUntil.ahk
 #Include class UserHookCallbackTo.ahk
 #Include class HookConfig.ahk
 #Include class HookInstall.ahk
@@ -12,3 +11,5 @@
 #Include class UserHookCallbackTo.ahk
 #Include class HookMensages.ahk
 #Include ..\..\Classes\Constants Mensages.ahk
+#Include ..\..\Classes\class WaitUntil.ahk
+#Include ..\..\Classes\class Register.ahk

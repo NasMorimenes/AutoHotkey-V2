@@ -12,22 +12,23 @@ HookHandle := {
 class HookHandle {
 
     static Ref := 0
-    static Register := Map()
 
     static Call( _NumericValue ) {
         
         ++this.Ref
         ID := this.Prototype.__Class "_" this.Ref
 
-        this.Register.Set( ID,
-            {
+        return Register( {
                 Value   : _NumericValue,
                 ID      : ID,
                 Status  : true,
+                Release : Release,
                 Type    : "Ptr"
             }
         )
 
-        return this.Register[ ID ]
+        Release( _ ) {
+            HookUn( _ )
+        }
     }
 }

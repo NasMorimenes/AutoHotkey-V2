@@ -3,20 +3,25 @@
 class UserHookCallbackTo {
 
 	static Ref := 0
-	static Register := Map()
 
 	static Call( _func, Block := false ) {
 
 		++this.Ref
 		ID := this.Prototype.__Class "_" this.Ref
 
-		this.Register[ ID ] := {
-			Value    : _func,
-			Block    : Block,
-			Datatype : "UserHookCallbackTo"
+		return Register( {
+				Value    : _func,
+				ID		 : ID,
+				Block    : Block,
+				Datatype : "UserHookCallbackTo",
+				Out		 : unset,
+				IsOut	 : false,
+				Release  : LocalRelease
+			}
+		)
+
+		LocalRelease( _ ) {
+			_.myInstallHook.__Delete()
 		}
-
-		return this.Register[ ID ]
-
 	}
 }

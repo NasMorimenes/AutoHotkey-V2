@@ -13,7 +13,6 @@
 class HookConfig {
 
     static Ref := 0
-    static Register := Map()
 
     static Call( _idHook, _lpfn, _ModuleHandle := { Value : 0 }, _DwThreadId := { Value : 0 } ) {
         
@@ -51,15 +50,13 @@ class HookConfig {
 class HookConfig {
 
     static Ref := 0
-    static Register := Map()
 
     static Call( _idHook, _lpfn, _ModuleHandle := { Value : 0 }, _DwThreadId := { Value : 0 } ) {
         
         ++this.Ref
         ID := this.Prototype.__Class "_" this.Ref
 
-        this.Register.Set( ID, 
-            {
+        return Register( {
                 IdHook      : _idHook.Value,
                 ID          : ID,
                 Address     : _lpfn.Address,
@@ -68,8 +65,6 @@ class HookConfig {
                 Release     : Release
             }
         )
-
-        return this.Register[ ID ]
 
         Release( _ ) {
             OutputDebug( "IsRelease" )

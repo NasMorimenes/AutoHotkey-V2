@@ -12,28 +12,28 @@ class HookInstall {
 
     __New( IdHookID, LpFnID ) {
 
-        this.HookHandleID := 0
         this.IdHookID     := IdHookID
         this.LpFnID       := LpFnID
         
-        ;this.HookConfig := HookConfig( this.IdHook, this.LpFn )
-        this.HookID := HookSet( this )
+        this.HookConfig := HookConfig( this.IdHook, this.LpFn )
+        this.Hook       := HookSet( this.HookConfig )
+
     }
 
     IdHook {
         get {
-            return Register.Get( this.IdHookID )
+            return IdHook.Register[ this.IdHookID ]
         }
     }
 
     LpFn {
         get {
-            return Register.Get( this.LpFnID )
+            return HookCallbackTo.Register[ this.LpFnID ]
         }
     }
 
     __Delete() {
-        _HookHandle := Register.Get( this.HookHandleID )
-        _HookHandle.Release()
+        OutputDebug( "Delete " Type( this) )
+        HookUn( this )
     }
 }

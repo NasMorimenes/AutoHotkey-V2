@@ -1,31 +1,91 @@
 ﻿#Include ..\Hooks\Lib\lib.ahk
 
-AxesSelect( Axis ) {
-
-    ClickButton := {
-        Prop        : "WParam",
-        ValueProp   : WM_LBUTTONDOWN,
-        MethodCall  : "CaptureAxis",
-		CaptureAxis : CaptureAxis, 
-    }
-
-	_func := UserHookCallbackTo( CaptureAxis, true )
-
-	HookInstallFastM_LL( _func )
-
-    CaptureAxis( wParam, lParam ) {
-        if ( wParam == WM_LBUTTONDOWN ) {
-            if ( Axis == "x" ) {
-                x := NumGet( lParam, 0. "Int" )
-                return 
-            }
-        }
-    }
-
-    return AxesScreen( _Value )
+if ( Ass := CoordinateSelector( "x" ) ) {
+	MsgBox( Ass.ToString )
+}
+else {	
+	MsgBox( "TimeOff" )
 }
 
+CoordinateSelector( Axis ) {
 
+	funcID := UserHookCallbackTo( CaptureAxis )
+	Hook := HookInstallFastM_LL( funcID )
+	_func := Register.Get( funcID )
+	Result := WaitUntil( _func, "IsOut", true, , 10000 )
+	
+	if ( Result ) {
+		if ( Axis == "x" ) {
+			return AxesScreen( Axis _func.Out[ 1 ] )
+		}
+		return AxesScreen( Axis _func.Out[ 2 ] )
+	}
+	HookUn( _func.HookInstall )
+	return false
+
+    CaptureAxis( _, wParam, lParam ) {
+		static Text := wParam
+        if ( wParam == WM_LBUTTONDOWN ) {
+            _.Out := [
+				NumGet( lParam, 0, "Int" ),
+				NumGet( lParam, 4, "Int" )
+			]
+			Text := "x " _.Out[ 1 ] "`ny " _.Out[ 2 ]
+			_.IsOut := true
+			HookUn( _.HookInstall )
+        }
+    }
+}
+
+/*
+class CoordinateSelector {
+
+	static Ref 		:= 0
+	static Register := Map()
+	static BaseKey 	:= "Coordinate"
+
+	__New( Axis ) {
+		
+		this.IdHookID           := IdHook( WH_MOUSE_LL() )
+		this.InstallHook := HookInstall( this.IdHookID, this.CallBackID )
+
+
+		
+	}
+
+	HookCallbackTo() {
+
+		return {
+			Address  : CallbackCreate( ObjBindMethod( this, "DefaultCallBack" ), "F", 3 ),
+			ID       : ID,
+			Block    : false,
+			DataType : "HookCallbackTo",
+			Release  : Release
+		}
+	}
+
+	CaptureCoordinate( _, wParam, lParam ) {
+		static Text := wParam
+		if ( wParam == WM_LBUTTONDOWN ) {
+			_.Out := [
+				NumGet( lParam, 0, "Int" ),
+				NumGet( lParam, 4, "Int" )
+			]
+			Text := "x " _.Out[ 1 ] "`ny " _.Out[ 2 ]
+			_.IsOut := true
+			HookUn( _.HookInstall )
+		}
+	}
+
+	DefaultCallBack( nCode, wParam, lParam ) {
+
+		if ( nCode >= 0 ) {
+
+		}
+
+	}
+}
+*/
 ;============================================================
 ;============================================================
 ;============================================================
@@ -54,7 +114,7 @@ class AxesScreen {
 
 			return {
 				Value	 : xAxis,
-				ToString : Axis
+				ToString : xAxis Axis
 			}
 		}
 
@@ -65,8 +125,8 @@ class AxesScreen {
 			}
 
 			return {
-				Value: yAxis,
-				ToString:Axis
+				Value	 : yAxis,
+				ToString : yAxis Axis
 			}
 		}
 	}

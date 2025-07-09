@@ -12,52 +12,48 @@ myIdHook    := IdHook( myProcedure )
 ; */
 class IdHook {
 
-    static Ref := 0
-    static Register := Map()
+	static Ref := 0
 
-    static ProcedureList := Map(
-        "WH_CALLWNDPROC"     , WH_CALLWNDPROC,
-        "WH_CALLWNDPROCRET"  , WH_CALLWNDPROCRET,
-        "WH_CBT"             , WH_CBT,
-        "WH_DEBUG"           , WH_DEBUG,
-        "WH_FOREGROUNDIDLE"  , WH_FOREGROUNDIDLE,
-        "WH_JOURNALPLAYBACK" , WH_JOURNALPLAYBACK,
-        "WH_JOURNALRECORD"   , WH_JOURNALRECORD,
-        "WH_KEYBOARD"        , WH_KEYBOARD,
-        "WH_MOUSE"           , WH_MOUSE,
-        "WH_MOUSE_LL"        , WH_MOUSE_LL,
-        "WH_MSGFILTER"       , WH_MSGFILTER,
-        "WH_SHELL"           , WH_SHELL,
-        "WH_SYSMSGFILTER"    , WH_SYSMSGFILTER
-    )
-    
-    static Call( _value ) {
+	static ProcedureList := Map(
+		"WH_CALLWNDPROC"     , WH_CALLWNDPROC,
+		"WH_CALLWNDPROCRET"  , WH_CALLWNDPROCRET,
+		"WH_CBT"             , WH_CBT,
+		"WH_DEBUG"           , WH_DEBUG,
+		"WH_FOREGROUNDIDLE"  , WH_FOREGROUNDIDLE,
+		"WH_JOURNALPLAYBACK" , WH_JOURNALPLAYBACK,
+		"WH_JOURNALRECORD"   , WH_JOURNALRECORD,
+		"WH_KEYBOARD"        , WH_KEYBOARD,
+		"WH_MOUSE"           , WH_MOUSE,
+		"WH_MOUSE_LL"        , WH_MOUSE_LL,
+		"WH_MSGFILTER"       , WH_MSGFILTER,
+		"WH_SHELL"           , WH_SHELL,
+		"WH_SYSMSGFILTER"    , WH_SYSMSGFILTER
+	)
+	
+	static Call( _value ) {
 
-        ++this.Ref
-        ID := this.Prototype.__Class "_" this.Ref
+		++this.Ref
+		ID := this.Prototype.__Class "_" this.Ref
 
-        valide := false
-        for key, _class in this.ProcedureList {
-            if ( _class().Value == _value.Value ) {
-                valide := true
-                break
-            }
-        }
+		valide := false
+		for key, _class in this.ProcedureList {
+			if ( _class().Value == _value.Value ) {
+				valide := true
+				break
+			}
+		}
 
-        if ( !valide ) {
-            throw( Error( "procedure indisponíveis!" ) )
-        }
+		if ( !valide ) {
+			throw( Error( "procedure indisponíveis!" ) )
+		}
 
-        this.Register.Set( ID,
-            {
-                Value     : _value.Value,
-                ID        : ID,
-                DataType  : "NumericValues"
-            }
-        )
-        
-        return ID
-    }
+		return Register( {
+				Value     : _value.Value,
+				ID        : ID,
+				DataType  : "NumericValues"
+			}
+		)
+	}
 }
 
 /**
@@ -66,15 +62,15 @@ class IdHook {
  */
 class WH_CALLWNDPROC {
 
-    static ID   := "idHook"
-    static Ref  := ""
-    
-    static Call() {
-        return {
-            Value : 4,
-            Type  : "Int"
-        }
-    }
+	static ID   := "idHook"
+	static Ref  := ""
+	
+	static Call() {
+		return {
+			Value : 4,
+			Type  : "Int"
+		}
+	}
 }
 
 /**
@@ -82,15 +78,15 @@ class WH_CALLWNDPROC {
  * @link https://learn.microsoft.com/pt-br/windows/win32/api/winuser/nc-winuser-hookproc
  */
 class WH_CALLWNDPROCRET {
-    static ID   := "idHook"
-    static Ref  := ""
-    
-    static Call() {
-        return {
-            Value: 12,
-            Type: "Int"
-        }
-    }
+	static ID   := "idHook"
+	static Ref  := ""
+	
+	static Call() {
+		return {
+			Value: 12,
+			Type: "Int"
+		}
+	}
 }
 
 /**
@@ -98,15 +94,15 @@ class WH_CALLWNDPROCRET {
  * @link https://learn.microsoft.com/pt-br/windows/win32/winmsg/cbtproc
  */
 class WH_CBT {
-    static ID   := "idHook"
-    static Ref  := ""
-    
-    static Call() {
-        return {
-            Value: 5,
-            Type: "Int"
-        }
-    }
+	static ID   := "idHook"
+	static Ref  := ""
+	
+	static Call() {
+		return {
+			Value: 5,
+			Type: "Int"
+		}
+	}
 }
 
 /**
@@ -114,15 +110,15 @@ class WH_CBT {
  * @link https://learn.microsoft.com/pt-br/windows/win32/winmsg/debugproc
  */
 class WH_DEBUG {
-    static ID   := "idHook"
-    static Ref  := ""
-    
-    static Call() {
-        return {
-            Value: 9,
-            Type: "Int"
-        }
-    }
+	static ID   := "idHook"
+	static Ref  := ""
+	
+	static Call() {
+		return {
+			Value: 9,
+			Type: "Int"
+		}
+	}
 }
 
 /**
@@ -130,30 +126,30 @@ class WH_DEBUG {
  * @link https://learn.microsoft.com/pt-br/windows/win32/winmsg/foregroundidleproc
  */
 class WH_FOREGROUNDIDLE {
-    static ID   := "idHook"
-    static Ref  := ""
-    
-    static Call() {
-        return {
-            Value: 11,
-            Type: "Int"
-        }
-    }
+	static ID   := "idHook"
+	static Ref  := ""
+	
+	static Call() {
+		return {
+			Value: 11,
+			Type: "Int"
+		}
+	}
 }
 
 /**
  * Instala um procedimento de gancho que monitora mensagens postadas em uma fila de mensagens. Para obter mais informações, consulte o procedimento de gancho de getMsgProc.
  */
 class WH_GETMESSAGE {
-    static ID   := "idHook"
-    static Ref  := ""
-    
-    static Call() {
-        return {
-            Value: 3,
-            Type: "Int"
-        }
-    }
+	static ID   := "idHook"
+	static Ref  := ""
+	
+	static Call() {
+		return {
+			Value: 3,
+			Type: "Int"
+		}
+	}
 }
 
 /**
@@ -165,15 +161,15 @@ class WH_GETMESSAGE {
  * @link https://learn.microsoft.com/pt-br/windows/win32/winmsg/journalplaybackproc
  */
 class WH_JOURNALPLAYBACK {
-    static ID   := "idHook"
-    static Ref  := ""
-    
-    static Call() {
-        return {
-            Value: 1,
-            Type: "Int"
-        }
-    }
+	static ID   := "idHook"
+	static Ref  := ""
+	
+	static Call() {
+		return {
+			Value: 1,
+			Type: "Int"
+		}
+	}
 }
 
 /**
@@ -183,15 +179,15 @@ class WH_JOURNALPLAYBACK {
  * @link https://learn.microsoft.com/pt-br/windows/win32/api/winuser/nf-winuser-sendinput
  */
 class WH_JOURNALRECORD {
-    static ID   := "idHook"
-    static Ref  := ""
-    
-    static Call() {
-        return {
-            Value: 0,
-            Type: "Int"
-        }
-    }
+	static ID   := "idHook"
+	static Ref  := ""
+	
+	static Call() {
+		return {
+			Value: 0,
+			Type: "Int"
+		}
+	}
 }
 
 /**
@@ -199,45 +195,45 @@ class WH_JOURNALRECORD {
  * @link https://learn.microsoft.com/pt-br/windows/win32/winmsg/keyboardproc
  */
 class WH_KEYBOARD {
-    static ID   := "idHook"
-    static Ref  := ""
-    
-    static Call() {
-        return {
-            Value: 2,
-            Type: "Int"
-        }
-    }
+	static ID   := "idHook"
+	static Ref  := ""
+	
+	static Call() {
+		return {
+			Value: 2,
+			Type: "Int"
+		}
+	}
 }
 
 /**
  * Instala um procedimento de gancho que monitora eventos de entrada de teclado de baixo nível. Para obter mais informações, consulte o procedimento de gancho de LowLevelKeyboardProc.
  */
 class WH_KEYBOARD_LL {
-    static ID   := "idHook"
-    static Ref  := ""
-    
-    static Call() {
-        return {
-            Value: 13,
-            Type: "Int"
-        }
-    }
+	static ID   := "idHook"
+	static Ref  := ""
+	
+	static Call() {
+		return {
+			Value: 13,
+			Type: "Int"
+		}
+	}
 }
 
 /**
  * Instala um procedimento de gancho que monitora mensagens do mouse. Para obter mais informações, consulte o procedimento de gancho MouseProc.
  */
 class WH_MOUSE {
-    static ID   := "idHook"
-    static Ref  := ""
-    
-    static Call() {
-        return {
-            Value: 7,
-            Type: "Int"
-        }
-    }
+	static ID   := "idHook"
+	static Ref  := ""
+	
+	static Call() {
+		return {
+			Value: 7,
+			Type: "Int"
+		}
+	}
 }
 
 /**
@@ -253,28 +249,28 @@ class WH_MOUSE {
  * @example
  class WH_MOUSE_LL {
 
-    static ID   := "idHook"
-    static Ref  := ""
+	static ID   := "idHook"
+	static Ref  := ""
 
-    static Call() {
-        return {
-            Value       : 14,
-            TypeNumeric : "Int"
-        }
-    }
+	static Call() {
+		return {
+			Value       : 14,
+			TypeNumeric : "Int"
+		}
+	}
 }
  */
 class WH_MOUSE_LL {
 
-    static ID   := "idHook"
-    static Ref  := ""
+	static ID   := "idHook"
+	static Ref  := ""
 
-    static Call() {
-        return {
-            Value       : 14,
-            TypeNumeric : "Int"
-        }
-    }
+	static Call() {
+		return {
+			Value       : 14,
+			TypeNumeric : "Int"
+		}
+	}
 }
 
 /**
@@ -282,15 +278,15 @@ class WH_MOUSE_LL {
  * @link https://learn.microsoft.com/pt-br/windows/win32/winmsg/messageproc
  */
 class WH_MSGFILTER {
-    static ID   := "idHook"
-    static Ref  := ""
-    
-    static Call() {
-        return {
-            Value: -1,
-            Type: "Int"
-        }
-    }
+	static ID   := "idHook"
+	static Ref  := ""
+	
+	static Call() {
+		return {
+			Value: -1,
+			Type: "Int"
+		}
+	}
 }
 
 /**
@@ -298,28 +294,28 @@ class WH_MSGFILTER {
  * @link https://learn.microsoft.com/pt-br/windows/win32/winmsg/shellproc
  */
 class WH_SHELL {
-    static ID   := "idHook"
-    static Ref  := ""
-    
-    static Call() {
-        return {
-            Value: 10,
-            Type: "Int"
-        }
-    }
+	static ID   := "idHook"
+	static Ref  := ""
+	
+	static Call() {
+		return {
+			Value: 10,
+			Type: "Int"
+		}
+	}
 }
 
 /**
  * Instala um procedimento de gancho que monitora mensagens geradas como resultado de um evento de entrada em uma caixa de diálogo, caixa de mensagem, menu ou barra de rolagem. O procedimento de gancho monitora essas mensagens para todos os aplicativos na mesma área de trabalho que o thread de chamada. Para obter mais informações, consulte o procedimento de gancho de SysMsgProc.
  */
 class WH_SYSMSGFILTER {
-    static ID   := "idHook"
-    static Ref  := ""
-    
-    static Call() {
-        return {
-            Value: 6,
-            Type: "Int"
-        }
-    }
+	static ID   := "idHook"
+	static Ref  := ""
+	
+	static Call() {
+		return {
+			Value: 6,
+			Type: "Int"
+		}
+	}
 }
