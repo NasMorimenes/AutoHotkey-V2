@@ -1,5 +1,7 @@
 ﻿#Include ..\Hooks\Lib\lib.ahk
 
+
+/*
 if ( Ass := CoordinateSelector( "x" ) ) {
 	MsgBox( Ass.ToString )
 }
@@ -36,9 +38,97 @@ CoordinateSelector( Axis ) {
         }
     }
 }
+*/
+
+mySet := CoordinateMouseSelector( RButtonDown() )
+if ( mySet.IsOut )
+	MsgBox( "x " mySet.Out[ 1 ] )
+
+class CoordinateMouseSelector {
+
+	static Ref := 0
+
+	static Call( _MsgButton, Block := false ) {
+		
+		_Out := {}
+
+
+		this.MsgButton    := _MsgButton
+		this.Block        := Block
+		this.Status		  := false
+		this.LpFn         := ObjBindMethod( this, "CallBack",_Out )
+		this.Address      := CallbackCreate( this.LpFn, "F", 3 )
+		this.IdHookID     := IdHook( WH_MOUSE_LL() )
+		this.HookID       := HookInstall( this )
+
+		
+		_Out.IsOut   := false
+		_Out.Block   := Block
+		_Out.HookID  := this.HookID 
+		_Out.End     := End
+
+		result := WaitUntil( _Out, "IsOut", true, "End", 5000 )
+
+		return _Out
+
+		End( _ ) {			
+			HookUn( _.HookID )
+		}
+	}
+
+	static CallBack( Out, nCode, wParam, lParam ) {
+
+		if ( nCode >= 0 and wParam == this.MsgButton.Value ) {
+            Out.Out := [
+				NumGet( lParam, 0, "Int" ),
+				NumGet( lParam, 4, "Int" )
+			]
+			Out.IsOut := true
+			OutputDebug( "Properties true!")
+		}
+
+		if ( Out.Block ) {
+			return 1
+		}
+
+		return HookCallNext( nCode, wParam, lParam )
+	}
+
+	static Release() {
+		if ( this.Address ) {     
+			CallbackFree( this.Address )
+			this.Address := 0
+			OutputDebug( "Is Release! " this.__Class )
+			return
+		}
+	}
+
+	static __Delete() {
+		this.Release()
+	}
+}
+
+;dfg.Sat := 60
+;MsgBox( dfg.ho )
+;dfg.ho := 100
+;MsgBox( dfg.Sat )
+
+class dfg {
+
+	static ho {
+		get {
+			return this.Sat
+		}
+
+		set {
+			this.Sat := Value
+		}
+	}
+
+	static Sat := 20
+}
 
 /*
-class CoordinateSelector {
 
 	static Ref 		:= 0
 	static Register := Map()

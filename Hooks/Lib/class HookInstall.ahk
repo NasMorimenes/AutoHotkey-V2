@@ -10,12 +10,14 @@ _LpFn   :=
 ; */
 class HookInstall {
 
-    __New( IdHookID, LpFnID ) {
+    __New( _ ) {
 
-        this.HookHandleID  := 0
-        this.IdHookID      := IdHookID
-        this.LpFnID        := LpFnID        
-        this.HookSetID     := HookSet( this.IdHookID, this.LpFnID )
+        this.HookHandle    := 0
+        this.Status        := _.Status
+        this.IdHookID      := _.IdHookID
+        this.LpFn          := _.Address
+        OutputDebug( this.LpFn )
+        this.HookSetID     := HookSet( this )
     }
 
     IdHook {
@@ -24,14 +26,17 @@ class HookInstall {
         }
     }
 
-    LpFn {
-        get {
-            return Register.Get( this.LpFnID )
-        }
-    }
+    Release() {
+
+		if ( this.LpFn ) {     
+			CallbackFree( this.LpFn )
+			this.LpFn := 0
+			OutputDebug( "Is Release! " this.__Class )
+			return
+		}
+	}
 
     __Delete() {
-        _HookHandle := Register.Get( this.HookHandleID )
-        _HookHandle.Release()
+        this.Release()
     }
 }
