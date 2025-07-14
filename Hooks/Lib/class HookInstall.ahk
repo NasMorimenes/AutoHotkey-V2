@@ -17,7 +17,7 @@ class HookInstall {
         this.IdHookID      := _.IdHookID
         this.LpFn          := _.Address
         OutputDebug( this.LpFn )
-        this.HookSetID     := HookSet( this )
+        this.HookInstallSetID     := HookSet( this )
     }
 
     IdHook {

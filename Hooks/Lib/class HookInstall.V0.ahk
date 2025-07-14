@@ -16,7 +16,7 @@ class HookInstall {
         this.LpFnID       := LpFnID
         
         this.HookConfig := HookConfig( this.IdHook, this.LpFn )
-        this.Hook       := HookSet( this.HookConfig )
+        this.Hook       := HookInstallSet( this.HookConfig )
 
     }
 

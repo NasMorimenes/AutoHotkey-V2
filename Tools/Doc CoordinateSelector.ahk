@@ -39,7 +39,7 @@ HookInstall := {
 	Status		: CoordinateMouseSelector.Status,
 	IdHookID	: CoordinateMouseSelector.IdHookID,
 	LpFn		: CoordinateMouseSelector.Address,
-	HookSetID	: {
+	HookInstallSetID	: {
 		IDHook  	: HookInstall.IdHookID,
 		LpFn    	: HookInstall.LpFn,
 		HHandle 	: HookInstall.HookHandle,
@@ -49,7 +49,7 @@ HookInstall := {
 	Callback	: Fun
 }
 
-HookSet := {
+HookInstallSet := {
 	Ref		:
 }
 
@@ -94,7 +94,7 @@ CoordinateMouseSelector := {
 		Status		: CoordinateMouseSelector.Status,
 		IdHookID	: CoordinateMouseSelector.IdHookID,
 		LpFn		: CoordinateMouseSelector.Address,
-		HookSetID	: {
+		HookInstallSetID	: {
 			IDHook  : HookInstall.IdHookID,
 			LpFn    : HookInstall.LpFn,
 			HHandle : HookInstall.HookHandle,
@@ -112,7 +112,7 @@ Out := {
 		Status		: CoordinateMouseSelector.Status,
 		IdHookID	: CoordinateMouseSelector.IdHookID,
 		LpFn		: CoordinateMouseSelector.Address,
-		HookSetID	: {
+		HookInstallSetID	: {
 			IDHook  : HookInstall.IdHookID,
 			LpFn    : HookInstall.LpFn,
 			HHandle : HookInstall.HookHandle,

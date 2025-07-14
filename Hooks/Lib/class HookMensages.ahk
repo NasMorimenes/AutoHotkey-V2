@@ -7,7 +7,7 @@ class LButtonDown {
 	static Call() {
 		return {
 			Value     : WM_LBUTTONDOWN,
-			Type      : "MouseMensage",
+			Type      : "MsgButton",
             Button    : "LButton",
 			ToString  : "LButton Pressionado"
 		}
@@ -19,7 +19,8 @@ class LButtonDown {
 	static Call() {
 		return {
 			Value     : WM_LBUTTONDOWN,
-			Type      : "MouseMensage",
+			Opposite  : WM_LBUTTONUP,
+			Type      : "MsgButton",
             Button    : "LButton",
 			ToString  : "LButton Pressionado"
 		}
@@ -36,7 +37,8 @@ class RButtonDown {
 	static Call() {
 		return {
 			Value     : WM_RBUTTONDOWN,
-			Type      : "MouseMensage",
+            Opposite  : WM_RBUTTONUP,
+			Type      : "MsgButton",
             Button    : "RButton",
 			ToString  : "RButton Pressionado"
 		}
@@ -48,7 +50,7 @@ class RButtonDown {
 		return {
 			Value     : WM_RBUTTONDOWN,
             Opposite  : WM_RBUTTONUP,
-			Type      : "MouseMensage",
+			Type      : "MsgButton",
             Button    : "RButton",
 			ToString  : "RButton Pressionado"
 		}
@@ -64,7 +66,8 @@ class MButtonDown {
 	static Call() {
 		return {
 			Value     : WM_MBUTTONDOWN,
-			Type      : "MouseMensage",
+            Opposite  : WM_MBUTTONUP,
+			Type      : "MsgButton",
             Button    : "MButton",
 			ToString  : "MButton Pressionado"
 		}
@@ -75,7 +78,8 @@ class MButtonDown {
 	static Call() {
 		return {
 			Value     : WM_MBUTTONDOWN,
-			Type      : "MouseMensage",
+			Opposite  : WM_MBUTTONUP,
+			Type      : "MsgButton",
             Button    : "MButton",
 			ToString  : "MButton Pressionado"
 		}
@@ -91,7 +95,8 @@ class XButton1Down {
 	static Call() {
 		return {
 			Value     : WM_XBUTTONDOWN,
-			Type      : "MouseMensage",
+			Value     : WM_XBUTTONUP,
+			Type      : "MsgButton",
             Button    : "XButton1",
 			ToString  : "XButton1 Pressionado"
 		}
@@ -101,9 +106,9 @@ class XButton1Down {
 class XButton1Down {
 	static Call() {
 		return {
-			;Value     : WM_XBUTTONDOWN,
-			Type      : "MouseMensage",
-            Button    : "XButton1",
+			Value     : WM_XBUTTONDOWN,
+			Value     : WM_XBUTTONUP,
+			Type      : "MsgButton",
 			ToString  : "XButton1 Pressionado"
 		}
 	}
