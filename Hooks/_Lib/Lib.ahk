@@ -10,7 +10,6 @@
 #Include class HookCallNext.ahk
 #Include class HookIDs.ahk
 #Include ..\Lib\class HookMensages.ahk
-#Include class View.ahk
 #Include ..\..\Classes\Constants Mensages.ahk
 #Include ..\..\Classes\class WaitUntil.ahk
 #Include ..\..\Classes\class Register.ahk

@@ -1,22 +1,36 @@
 ﻿class HookInstall {
 
 	static Call( _HookConfig ) {
-
-		_Hook := ObjFromKeyRegistration( _HookConfig )
-
-		_Hook.HandleHook :=
+		
+		HandleHook :=
 		DllCall(
 			"SetWindowsHookExW",
-			"Int", _Hook.IdHook,
-			"Ptr", _Hook.lpfn,
+			"Int", _HookConfig.IdHook,
+			"Ptr", _HookConfig.lpfn,
 			"Ptr", 0,
 			"UInt", 0,
 			"Ptr"
 		)
 
-		if ( _Hook.HandleHook ) {
-			_Hook.Status := true
-			return _HookConfig
+		if ( HandleHook ) {
+			Status := true
+
+			Out := {
+				DataType    : "HookInstallSet",
+				IdHook		: _HookConfig.IdHook,
+				LpFn		: _HookConfig.LpFn,
+				HandleHook	: HandleHook,
+				Status		: Status,
+				Release		: _HookConfig.Release,
+				__Delete	: Delete,
+			}
+
+			return Out
+
+			Delete( _ ) {
+				OutputDebug( "p71")
+				HookUn( _ )
+			}
 		}
 	}
 }

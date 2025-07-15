@@ -1,16 +1,11 @@
-﻿class HookInstallSet extends Registrar {
+﻿
+class HookInstallSet {
 
 	static Call( idHook, lpfn ) {
 
 		this.IdHook := idHook
 		this.LpFn   := lpfn
-		++this.Ref
-
-		super.Call()
-
-		ID := this.Prototype.__Class "_" this.Ref
-		this.ID := ID
-
+		
 		this.HandleHook :=
 		DllCall(
 			"SetWindowsHookExW",
@@ -25,19 +20,17 @@
 
 			this.Status := true
 
-			this.Registration[ ID ].ID			:= this.ID
-        	this.Registration[ ID ].DataType    := "HookInstallSet"
-			this.Registration[ ID ].IdHook		:= this.IdHook
-			this.Registration[ ID ].LpFn		:= this.LpFn
-			this.Registration[ ID ].HandleHook	:= this.HandleHook
-			this.Registration[ ID ].Status		:= this.Status
-			this.Registration[ ID ].Release		:= this.Release
-			this.Registration[ ID ].__Delete	:= Delete
-
-			return {
-				ID			: ID,
-				DataType 	: "ObjKeyRegistration"
+			Out := {
+				DataType    : "HookInstallSet",
+				IdHook		: this.IdHook,
+				LpFn		: this.LpFn,
+				HandleHook	: this.HandleHook,
+				Status		: this.Status,
+				Release		: this.Release,
+				__Delete	: Delete,
 			}
+
+			return Out
 
 			Delete( _ ) {
 				OutputDebug( "p7")

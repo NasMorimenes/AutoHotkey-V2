@@ -4,16 +4,16 @@ class HookUn {
 
     static Call( _SetWindows ) {
         OutputDebug( "p8")
-		;_SetWindowsHook := ObjFromKeyRegistration( _SetWindows )
+		_SetWindowsHook := ObjFromKeyRegistration( _SetWindows )
         Bool :=
         DllCall(
             "UnhookWindowsHookEx",
-            "Uint", _SetWindows.HandleHook,
+            "Uint", _SetWindowsHook.HandleHook,
             "int"
         )
 
         if ( bool ) {
-            _SetWindows.Status := false
+            _SetWindowsHook.Status := false
         }
     }
 }

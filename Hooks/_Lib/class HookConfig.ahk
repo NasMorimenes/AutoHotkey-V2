@@ -1,40 +1,37 @@
 ﻿
 
-class HookConfig extends Registrar {
+class HookConfig {
 
     static Call( idHook, lpfn ) {
 
 		this.IdHook := idHook
 		this.LpFn   := lpfn
-		++this.Ref
 
-		super.Call()
-
-		ID := this.Prototype.__Class "_" this.Ref
-
-		this.ID := ID
-        this.Registration[ ID ].ID			:= this.ID
-		this.Registration[ ID ].IdHook		:= this.IdHook
-		this.Registration[ ID ].LpFn		:= this.LpFn
-        this.Registration[ ID ].DataType    := "HookConfig"
-		this.Registration[ ID ].Release     := this.Release
-		this.Registration[ ID ].__Delete    := this.__Delete
-
-        return {
-			ID			: ID,
-			DataType 	: "ObjKeyRegistration"
+		Out := {
+			IdHook		: this.IdHook,
+			LpFn		: this.LpFn,
+			DataType    : "HookConfig",
+			Release     : this.Release,
+			__Delete    : this.__Delete,
 		}
+
+        return Out
     }
 
     static Release() {
-		if ( this.LpFn.Address ) {
-			this.LpFn.Release()
-			this.LpFn.Address := 0
+		if ( this.LpFn ) {
+			;this.LpFn.Release()
+			CallbackFree( this.LpFn )
+			this.LpFn := 0
 		}
 	}    
 
 	static __Delete() {
-		HookUn( this )
+
+		if ( this.LpFn ) {
+			this.Release()
+			this.LpFn := 0
+		}
 	}
 		
 }
