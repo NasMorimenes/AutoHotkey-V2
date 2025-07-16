@@ -71,3 +71,51 @@ class WaitUntil {
 
     }
 }
+
+
+class WaitUntilProp {
+
+    static Call( _PropertyWait ) {
+        this.WaitProperty   := _PropertyWait.WaitProperty
+        this.ExpectedValue  := _PropertyWait.ExpectedValue
+        this.ToExecute      := _PropertyWait.ToExecute
+    }
+}
+
+/**
+ * Cria e retorna um objeto de descrição de condição de espera.
+ * 
+ * Este objeto contém as informações necessárias para que a classe `ConditionWaiter`
+ * aguarde até que uma determinada propriedade atinja o valor esperado.
+ * 
+ * @param this         Referência implícita ao contexto estático (ignorada).
+ * @param Property     Nome da propriedade a ser observada.
+ * @param Value        Valor esperado da propriedade.
+ * @param Execute      (Opcional) Função a ser executada quando a condição for satisfeita.
+ * 
+ * @returns {Object}   Um objeto contendo:
+ *                     - PropertyName    → Nome da propriedade.
+ *                     - ExpectedValue   → Valor esperado.
+ *                     - Callback        → Função a ser chamada ao atingir a condição, se fornecida.
+ * 
+ * @remarks
+ * Este objeto é interpretado e processado pela classe `ConditionWaiter`, que executa a verificação
+ * periódica e invoca o callback, se fornecido.
+ */
+
+class WaitDescriptor {
+
+    static Call( Property, Value, Execute := unset ) {
+
+        Out := {
+            PropertyName    : Property,
+            ExpectedValue   : Value,
+        }
+
+        if ( IsSet( Execute ) and Type( Execute ) == "Func" ) {
+            Out.Callback := Execute
+        }
+
+        return Out
+    }
+}
