@@ -2,30 +2,43 @@
 
 class Registrar {
 
-    static Registrations := Map()
-    static Refs := Map()
-    static Lists := Map()
+    static Registrations 		:= Map()
+    static Refs 		 		:= Map()
+    static Lists 		 		:= Map()
+
+	static LastKeyRegistrations	:= ""
+	static LastKeyRefs			:= ""
+	static LastKeyLists			:= ""
 
     static Call( _ ) {
 
-        className := _.__Class
+		OutputDebug( "Class,Object" ~= _.__Class )
+        className := ( "Class,Object" ~= _.__Class ? _.Prototype.__Class : _.__Class )
 
         ; Inicialização de estruturas
         if !this.Refs.Has( className ) {
-            this.Refs[ className ] := 0
+            this.Refs[ className ] 	:= 0
+			this.LastKeyRefs 		:= className
+			OutputDebug( "LastKeyRefs " this.LastKeyRefs )
 		}
 
         if !this.Registrations.Has( className ) {
             this.Registrations[ className ] := Map()
+			this.LastKeyRegistrations 		:= className
+			OutputDebug( "LastKeyRegistrations " this.LastKeyRegistrations )
+			
 		}
 
         if !this.Lists.Has( className ) {
-            this.Lists[className] := ""
+            this.Lists[className] 	:= ""
+			this.LastKeyLists 		:= className
+			OutputDebug( "LastKeyLists " this.LastKeyLists )
 		}
 
         ; Incrementa o contador de referência
         id := className . ++this.Refs[className]
 		_.ID := id
+		OutputDebug( "iD " id )
 
         ; Registro do objeto
         this.Registrations[className][id] := _

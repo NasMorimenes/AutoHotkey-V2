@@ -1,10 +1,10 @@
 ﻿#Include Lib.ahk
 #Include ..\HookProcs\Lib\lib.ahk
-Key :=  "wParamMouseLL"
+Key :=  "wLaramMouseLL"
 Method := "Registration"
 myConfig := HookConfig( 14, CallbackCreate( ObjBindMethod( WaitMsgLBunttonDownB0, "Call" ), "F", 3 ) )
 myIstall := HookInstall( myConfig )
-WaitUntil( Registrar, "Registrations.Has( key )", true )
+WaitUntil( Registrar, "LastKeyRegistrations", "wLaramMouseLL" )
 OutputDebug( "IsDown" )
 
 Esc::ExitApp()
