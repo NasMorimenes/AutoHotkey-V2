@@ -64,7 +64,6 @@ class WaitUntil {
         static ti := A_TickCount
     
         nTin := A_TickCount - ti
-        ToolTip( nTin )
         if ( nTin >= this.Timer and ( !this.Timer ? false : true ) ) {
             this.TimeOut := true
         }

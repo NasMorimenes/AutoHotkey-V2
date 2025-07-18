@@ -2,6 +2,7 @@
 class WaitMsgLBunttonDownB0 extends HookProc {
 
     static Out := []
+    ;static Button := RButtonDown()
 
     static FnCallBack( wParam, lParam ) {
 
@@ -36,3 +37,5 @@ class wLaramMouseLL {
         }
     }
 }
+
+;RButtonDown()

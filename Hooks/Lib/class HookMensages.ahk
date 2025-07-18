@@ -45,15 +45,57 @@ class RButtonDown {
 	}
 }
  */
-class RButtonDown {
+
+;Ass := RButtonDown1()
+;MsgBox( Ass.LParam )
+class RButtonDown1 {
+
 	static Call() {
-		return {
-			Value     : WM_RBUTTONDOWN,
-            Opposite  : WM_RBUTTONUP,
-			Type      : "MsgButton",
-            Button    : "RButton",
-			ToString  : "RButton Pressionado"
+
+		Out := {}
+		Out.Value     := WM_RBUTTONDOWN
+        Out.Opposite  := RButtonUp()
+		Out.Type      := "MsgButton"
+        Out.Button    := "RButton"
+		Out.ToString  := "RButton Pressionado"
+
+		Out.DefineProp( "Status", { Get: GetStatus } )
+		Out.DefineProp( "LParam", { Get : GetLParam })
+
+		return Out
+
+		GetStatus( _, wParam, lParam ) {
+			
+			if ( wParam == _.Value ) {
+
+				_.X := NumGet( lParam, 0, "UInt" )
+				_.Y := NumGet( lParam, 4, "UInt" )
+
+				return true
+			}
+
+			return false
 		}
+
+		GetLParam( _ ) {
+
+
+			Address := CallbackCreate( CallBack, "F" )
+			
+			_.HookConfig := HookConfig( 14, Address )
+			_.HookInstall := HookInstall( _.HookConfig )
+
+			CallBack( _* ) {
+				if ( _[ 2 ] >= 0 ) {
+					WaitUntil( _, "Status", true, "ExiHook")
+				}			
+			}
+		}
+
+		ExitHook( _ ) {
+			HookUn( _.HookInstall )
+		}
+
 	}
 }
 

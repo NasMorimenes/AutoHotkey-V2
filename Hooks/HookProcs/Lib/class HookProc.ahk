@@ -5,7 +5,7 @@ class HookProc {
     static DataType := "HookProc" ; ver Prototype.__Class
 
     static Call( nCode, wParam, lParam ) {
-        static Params := [ wParam, lParam ]
+        
         if ( nCode >= 0 ) {
             if ( this.fnCallBack( wParam, lParam ) ) {
                 return 1
